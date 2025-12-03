@@ -115,13 +115,8 @@ const App = () => {
       
       const genAI = new GoogleGenerativeAI(apiKey);
       
-      // Use a known working model
-      const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
-        generationConfig: {
-          temperature: 0.2,
-        },
-      });
+      // Use the model that's confirmed to be available
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       
       let history: any[] = [];
 
@@ -147,10 +142,7 @@ const App = () => {
       }
 
       const chat = model.startChat({
-        history: history,
-        generationConfig: {
-          temperature: 0.2,
-        },
+        history: history
       });
 
       setChatSession(chat);
