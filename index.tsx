@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { GoogleGenerativeAI, ChatSession, Part } from "@google/generative-ai";
+
 // --- Icons (SVG) ---
 const UploadIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
@@ -115,11 +116,9 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
-      let systemInstruction = "You are a helpful AI assistant.";
       let history: any[] = [];
 
       if (docFile) {
-        systemInstruction += " You have access to the attached document (PDF or Image). Your goal is to answer the user's questions based on the content of the document, as well as general knowledge if requested. Be concise and helpful.";
         history = [
           {
             role: 'user',
@@ -138,8 +137,6 @@ const App = () => {
             parts: [{ text: `I have analyzed "${docFile.name}". I am ready to answer your questions.` }]
           }
         ];
-      } else {
-        systemInstruction += " Answer user questions concisely and helpfully.";
       }
 
       const chat = model.startChat({
@@ -232,7 +229,7 @@ const App = () => {
     
     if (chat) {
       try {
-        const result = await chat.sendMessageStream({ message: textToSend });
+        const result = await chat.sendMessageStream([textToSend]);
         await processStreamResponse(result);
       } catch (err) {
         setMessages(prev => [...prev, { role: 'model', text: "Error connecting to AI." }]);
@@ -307,14 +304,18 @@ const App = () => {
     setIsSending(true);
 
     try {
-      const result = await chat.sendMessageStream({
-        message: [
-          { inlineData: { mimeType, data: audioData } },
-          { text: "Please listen to this audio and respond to the user's request." }
-        ]
-      });
+      const result = await chat.sendMessageStream([
+        {
+          inlineData: {
+            mimeType: mimeType,
+            data: audioData
+          }
+        },
+        "Please listen to this audio and respond to the user's request."
+      ]);
       await processStreamResponse(result);
     } catch (err) {
+      console.error("Error processing voice input:", err);
       setMessages(prev => [...prev, { role: 'model', text: "Error processing voice input." }]);
       setIsSending(false);
     }
