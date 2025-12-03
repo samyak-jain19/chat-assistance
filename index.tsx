@@ -114,7 +114,7 @@ const App = () => {
       }
       
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
       
       let history: any[] = [];
 
@@ -148,9 +148,9 @@ const App = () => {
 
       setChatSession(chat);
       return chat;
-    } catch (err) {
-      console.error(err);
-      setError('Failed to initialize AI session. Please check your API key.');
+    } catch (err: any) {
+      console.error("Error initializing chat:", err);
+      setError(`Failed to initialize AI session: ${err.message || 'Unknown error'}`);
       return null;
     }
   };
@@ -172,9 +172,9 @@ const App = () => {
             });
           }
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error processing stream:", err);
-        setMessages(prev => [...prev, { role: 'model', text: "Error processing response." }]);
+        setMessages(prev => [...prev, { role: 'model', text: `Error processing response: ${err.message || 'Unknown error'}` }]);
       }
       setIsSending(false);
   };
@@ -231,8 +231,9 @@ const App = () => {
       try {
         const result = await chat.sendMessageStream([textToSend]);
         await processStreamResponse(result);
-      } catch (err) {
-        setMessages(prev => [...prev, { role: 'model', text: "Error connecting to AI." }]);
+      } catch (err: any) {
+        console.error("Error in handleLandingTextSubmit:", err);
+        setMessages(prev => [...prev, { role: 'model', text: `Error connecting to AI: ${err.message || 'Unknown error'}` }]);
         setIsSending(false);
       }
     }
@@ -314,9 +315,9 @@ const App = () => {
         "Please listen to this audio and respond to the user's request."
       ]);
       await processStreamResponse(result);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error processing voice input:", err);
-      setMessages(prev => [...prev, { role: 'model', text: "Error processing voice input." }]);
+      setMessages(prev => [...prev, { role: 'model', text: `Error processing voice input: ${err.message || 'Unknown error'}` }]);
       setIsSending(false);
     }
   };
@@ -365,9 +366,9 @@ const App = () => {
       const result = await chatSession.sendMessageStream(messageParts);
       await processStreamResponse(result);
 
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error sending message:", err);
-      setMessages(prev => [...prev, { role: 'model', text: "Error: Could not generate response." }]);
+      setMessages(prev => [...prev, { role: 'model', text: `Error: Could not generate response: ${err.message || 'Unknown error'}` }]);
       setIsSending(false);
     }
   };
