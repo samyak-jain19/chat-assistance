@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Assistant</title>
+    <style>
+        :root {
+            /* Cosmic Night Theme Colors */
+            --cosmic-bg-dark: #0a0a1a;
+            --cosmic-bg-medium: #12122a;
+            --cosmic-bg-light: #1a1a3a;
+            --cosmic-accent-primary: #6a5af9;
+            --cosmic-accent-secondary: #d66efd;
+            --cosmic-text-primary: #e6e6ff;
+            --cosmic-text-secondary: #a0a0d0;
+            --cosmic-border: #2a2a5a;
+            --cosmic-glow: rgba(106, 90, 249, 0.3);
+            
+            /* Typography */
+            --font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--cosmic-bg-dark) 0%, var(--cosmic-bg-medium) 100%);
+            color: var(--cosmic-text-primary);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--cosmic-bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--cosmic-accent-primary);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cosmic-accent-secondary);
+        }
+        
+        /* Glowing effects */
+        .glow {
+            box-shadow: 0 0 15px var(--cosmic-glow);
+        }
+        
+        .glow-strong {
+            box-shadow: 0 0 20px var(--cosmic-glow), 0 0 30px rgba(106, 90, 249, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem !important;
+            }
+        }
+    </style>
+    <!-- Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
