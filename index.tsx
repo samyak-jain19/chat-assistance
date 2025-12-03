@@ -115,28 +115,13 @@ const App = () => {
       
       const genAI = new GoogleGenerativeAI(apiKey);
       
-      // Try multiple models in order of preference
-      const modelNames = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"];
-      let model = null;
-      let lastError: any = null;
-      
-      for (const modelName of modelNames) {
-        try {
-          model = genAI.getGenerativeModel({ model: modelName });
-          // Test if the model is accessible
-          await model.generateContent("test");
-          console.log(`Successfully connected to model: ${modelName}`);
-          break;
-        } catch (err: any) {
-          console.warn(`Failed to connect to model ${modelName}:`, err);
-          lastError = err;
-          continue;
-        }
-      }
-      
-      if (!model) {
-        throw new Error(`Unable to connect to any available model. Last error: ${lastError?.message || 'Unknown error'}`);
-      }
+      // Use a known working model
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        generationConfig: {
+          temperature: 0.2,
+        },
+      });
       
       let history: any[] = [];
 
