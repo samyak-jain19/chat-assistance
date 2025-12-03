@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { GoogleGenAI, Chat, Part } from "@google/genai";
+import { GoogleGenerativeAI, ChatSession, Part } from "@google/generative-ai";
 // --- Icons (SVG) ---
 const UploadIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
@@ -65,7 +65,7 @@ interface FileData {
 const App = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const [file, setFile] = useState<FileData | null>(null);
-  const [chatSession, setChatSession] = useState<Chat | null>(null);
+  const [chatSession, setChatSession] = useState<ChatSession | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -103,7 +103,7 @@ const App = () => {
   };
 
   // Initialize Chat with Gemini (supports optional docFile)
-  const initializeChat = async (docFile: FileData | null): Promise<Chat | null> => {
+  const initializeChat = async (docFile: FileData | null): Promise<ChatSession | null> => {
     try {
       // Use the API key from environment variables
       const apiKey = (import.meta as any).env.VITE_GEMINI_API_KEY;
@@ -112,14 +112,15 @@ const App = () => {
         return null;
       }
       
-      const ai = new GoogleGenAI({ apiKey });
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
       let systemInstruction = "You are a helpful AI assistant.";
-      let initialHistory: any[] = [];
+      let history: any[] = [];
 
       if (docFile) {
         systemInstruction += " You have access to the attached document (PDF or Image). Your goal is to answer the user's questions based on the content of the document, as well as general knowledge if requested. Be concise and helpful.";
-        initialHistory = [
+        history = [
           {
             role: 'user',
             parts: [
@@ -141,13 +142,11 @@ const App = () => {
         systemInstruction += " Answer user questions concisely and helpfully.";
       }
 
-      const chat = ai.chats.create({
-        model: 'gemini-2.5-flash',
-        config: {
-          temperature: 0.2, 
-          systemInstruction: systemInstruction,
+      const chat = model.startChat({
+        history: history,
+        generationConfig: {
+          temperature: 0.2,
         },
-        history: initialHistory
       });
 
       setChatSession(chat);
@@ -164,16 +163,21 @@ const App = () => {
       let fullResponse = "";
       setMessages(prev => [...prev, { role: 'model', text: "" }]);
 
-      for await (const chunk of result) {
-        const text = chunk.text;
-        if (text) {
-          fullResponse += text;
-          setMessages(prev => {
-            const newMsgs = [...prev];
-            newMsgs[newMsgs.length - 1].text = fullResponse;
-            return newMsgs;
-          });
+      try {
+        for await (const chunk of result.stream) {
+          const chunkText = chunk.text();
+          if (chunkText) {
+            fullResponse += chunkText;
+            setMessages(prev => {
+              const newMsgs = [...prev];
+              newMsgs[newMsgs.length - 1].text = fullResponse;
+              return newMsgs;
+            });
+          }
         }
+      } catch (err) {
+        console.error("Error processing stream:", err);
+        setMessages(prev => [...prev, { role: 'model', text: "Error processing response." }]);
       }
       setIsSending(false);
   };
@@ -293,7 +297,7 @@ const App = () => {
     }
   };
 
-  const handleSendAudio = async (base64Audio: string, chat: Chat | null) => {
+  const handleSendAudio = async (base64Audio: string, chat: ChatSession | null) => {
     if (!chat) return;
     
     const audioData = base64Audio.split(',')[1];
@@ -352,15 +356,16 @@ const App = () => {
       }
       
       if (userText) {
-        messageParts.push({ text: userText });
+        messageParts.push(userText);
       } else if (currentAttachment) {
-         messageParts.push({ text: "Describe this image." });
+         messageParts.push("Describe this image.");
       }
 
-      const result = await chatSession.sendMessageStream({ message: messageParts });
+      const result = await chatSession.sendMessageStream(messageParts);
       await processStreamResponse(result);
 
     } catch (err) {
+      console.error("Error sending message:", err);
       setMessages(prev => [...prev, { role: 'model', text: "Error: Could not generate response." }]);
       setIsSending(false);
     }

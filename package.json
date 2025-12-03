@@ -8,12 +8,20 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "keywords": ["ai", "chat", "assistant", "gemini", "react", "typescript"],
+  "keywords": [
+    "ai",
+    "chat",
+    "assistant",
+    "gemini",
+    "react",
+    "typescript"
+  ],
   "author": "AI Chat Assistant Team",
   "license": "MIT",
   "type": "module",
   "dependencies": {
     "@google/genai": "^1.30.0",
+    "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.86.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
