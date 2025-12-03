@@ -36,6 +36,13 @@
             overflow: hidden;
         }
         
+        /* Fullscreen styles */
+        body.fullscreen {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -75,6 +82,51 @@
             animation: float 3s ease-in-out infinite;
         }
         
+        /* Animation classes for slide-in effects */
+        .animate-in {
+            animation-duration: 0.3s;
+            animation-fill-mode: both;
+        }
+        
+        .fade-in {
+            animation-name: fadeIn;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide-in-from-bottom-2 {
+            animation-name: slideInFromBottom;
+        }
+        
+        @keyframes slideInFromBottom {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .slide-in-from-top-2 {
+            animation-name: slideInFromTop;
+        }
+        
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
@@ -92,5 +144,21 @@
 <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
+    <script>
+        // Enable fullscreen mode
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            }
+        }
+        
+        // Automatically enter fullscreen on load
+        window.addEventListener('load', () => {
+            // Add slight delay to ensure DOM is fully loaded
+            setTimeout(toggleFullscreen, 1000);
+        });
+    </script>
 </body>
 </html>

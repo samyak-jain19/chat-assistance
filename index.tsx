@@ -429,11 +429,11 @@ const App = () => {
                }}></div>
         </div>
 
-        <div className="max-w-4xl w-full z-10 flex flex-col items-center">
+        <div className="max-w-6xl w-full z-10 flex flex-col items-center">
           
           {/* Logo and Title */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 glow-strong"
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 glow-strong floating"
                  style={{ 
                    background: 'linear-gradient(135deg, var(--cosmic-accent-primary) 0%, var(--cosmic-accent-secondary) 100%)',
                    boxShadow: '0 0 30px rgba(106, 90, 249, 0.4)'
@@ -447,14 +447,14 @@ const App = () => {
                 }}>
               AI Chat Assistant
             </h1>
-            <p className="text-xl text-center max-w-2xl" style={{ color: 'var(--cosmic-text-secondary)' }}>
-              Experience the future of AI-powered conversations with document analysis and voice capabilities
+            <p className="text-xl text-center max-w-3xl" style={{ color: 'var(--cosmic-text-secondary)' }}>
+              Experience the future of AI-powered conversations with document analysis, voice capabilities, and intelligent responses
             </p>
           </div>
           
           {/* Feature Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mb-12">
-            <div className="p-6 rounded-2xl border glow" 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mb-12">
+            <div className="p-6 rounded-2xl border glow hover:transform hover:scale-105 transition-all duration-300" 
                  style={{ 
                    backgroundColor: 'rgba(26, 26, 58, 0.5)',
                    borderColor: 'var(--cosmic-border)',
@@ -468,10 +468,10 @@ const App = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
               </div>
               <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--cosmic-text-primary)' }}>Document Analysis</h3>
-              <p style={{ color: 'var(--cosmic-text-secondary)' }}>Upload PDFs and images for AI-powered analysis and insights</p>
+              <p style={{ color: 'var(--cosmic-text-secondary)' }}>Upload PDFs and images for AI-powered analysis and insights. Get summaries, extract information, and ask questions about your documents.</p>
             </div>
             
-            <div className="p-6 rounded-2xl border glow" 
+            <div className="p-6 rounded-2xl border glow hover:transform hover:scale-105 transition-all duration-300" 
                  style={{ 
                    backgroundColor: 'rgba(26, 26, 58, 0.5)',
                    borderColor: 'var(--cosmic-border)',
@@ -485,10 +485,10 @@ const App = () => {
                 <MicIcon />
               </div>
               <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--cosmic-text-primary)' }}>Voice Interaction</h3>
-              <p style={{ color: 'var(--cosmic-text-secondary)' }}>Speak naturally with our advanced voice recognition system</p>
+              <p style={{ color: 'var(--cosmic-text-secondary)' }}>Speak naturally with our advanced voice recognition system. Have conversations hands-free and get instant voice responses.</p>
             </div>
             
-            <div className="p-6 rounded-2xl border glow" 
+            <div className="p-6 rounded-2xl border glow hover:transform hover:scale-105 transition-all duration-300" 
                  style={{ 
                    backgroundColor: 'rgba(26, 26, 58, 0.5)',
                    borderColor: 'var(--cosmic-border)',
@@ -502,7 +502,94 @@ const App = () => {
                 <BotIcon />
               </div>
               <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--cosmic-text-primary)' }}>Smart Responses</h3>
-              <p style={{ color: 'var(--cosmic-text-secondary)' }}>Get intelligent answers powered by Google's Gemini AI</p>
+              <p style={{ color: 'var(--cosmic-text-secondary)' }}>Get intelligent answers powered by Google's Gemini 2.5 Flash AI. Receive contextual, accurate, and helpful responses to your queries.</p>
+            </div>
+          </div>
+          
+          {/* How It Works Section */}
+          <div className="w-full max-w-4xl mb-12">
+            <h2 className="text-3xl font-bold text-center mb-8" style={{ color: 'var(--cosmic-text-primary)' }}>How It Works</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex flex-col items-center text-center p-6 rounded-2xl" 
+                   style={{ backgroundColor: 'rgba(26, 26, 58, 0.3)' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-2xl font-bold"
+                     style={{ 
+                       backgroundColor: 'var(--cosmic-accent-primary)',
+                       color: 'white'
+                     }}>
+                  1
+                </div>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--cosmic-text-primary)' }}>Upload or Type</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Upload a document or start typing your question</p>
+              </div>
+              
+              <div className="flex flex-col items-center text-center p-6 rounded-2xl" 
+                   style={{ backgroundColor: 'rgba(26, 26, 58, 0.3)' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-2xl font-bold"
+                     style={{ 
+                       backgroundColor: 'var(--cosmic-accent-secondary)',
+                       color: 'white'
+                     }}>
+                  2
+                </div>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--cosmic-text-primary)' }}>AI Processing</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Our AI analyzes your input and generates a response</p>
+              </div>
+              
+              <div className="flex flex-col items-center text-center p-6 rounded-2xl" 
+                   style={{ backgroundColor: 'rgba(26, 26, 58, 0.3)' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 text-2xl font-bold"
+                     style={{ 
+                       backgroundColor: '#ff6b6b',
+                       color: 'white'
+                     }}>
+                  3
+                </div>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--cosmic-text-primary)' }}>Get Results</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Receive intelligent answers and continue the conversation</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* AI Capabilities Section */}
+          <div className="w-full max-w-4xl mb-12">
+            <h2 className="text-3xl font-bold text-center mb-8" style={{ color: 'var(--cosmic-text-primary)' }}>AI Capabilities</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl border" 
+                   style={{ 
+                     backgroundColor: 'rgba(26, 26, 58, 0.5)',
+                     borderColor: 'var(--cosmic-border)'
+                   }}>
+                <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--cosmic-text-primary)' }}>Natural Language Understanding</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Our AI comprehends complex queries and provides contextually relevant responses.</p>
+              </div>
+              
+              <div className="p-6 rounded-2xl border" 
+                   style={{ 
+                     backgroundColor: 'rgba(26, 26, 58, 0.5)',
+                     borderColor: 'var(--cosmic-border)'
+                   }}>
+                <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--cosmic-text-primary)' }}>Multimodal Support</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Process text, images, and documents with a single AI model.</p>
+              </div>
+              
+              <div className="p-6 rounded-2xl border" 
+                   style={{ 
+                     backgroundColor: 'rgba(26, 26, 58, 0.5)',
+                     borderColor: 'var(--cosmic-border)'
+                   }}>
+                <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--cosmic-text-primary)' }}>Real-time Interaction</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Experience seamless conversations with streaming responses.</p>
+              </div>
+              
+              <div className="p-6 rounded-2xl border" 
+                   style={{ 
+                     backgroundColor: 'rgba(26, 26, 58, 0.5)',
+                     borderColor: 'var(--cosmic-border)'
+                   }}>
+                <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--cosmic-text-primary)' }}>Voice Recognition</h3>
+                <p style={{ color: 'var(--cosmic-text-secondary)' }}>Advanced speech-to-text and text-to-speech capabilities.</p>
+              </div>
             </div>
           </div>
           
@@ -511,10 +598,10 @@ const App = () => {
              <div className="absolute -inset-0.5 rounded-2xl opacity-70 glow-strong"></div>
              <form onSubmit={handleLandingTextSubmit} className="relative rounded-2xl flex flex-col md:flex-row items-center p-2 border" 
                    style={{ 
-                     backgroundColor: 'var(--cosmic-bg-light)', 
-                     borderColor: 'var(--cosmic-border)',
-                     boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
-                   }}>
+                       backgroundColor: 'var(--cosmic-bg-light)', 
+                       borderColor: 'var(--cosmic-border)',
+                       boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+                     }}>
                 
                 <input 
                   type="text" 
@@ -702,6 +789,30 @@ const App = () => {
              </button>
            )}
         </div>
+        
+        {/* Fullscreen Toggle Button */}
+        <button 
+          onClick={() => {
+            if (!document.fullscreenElement) {
+              document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable fullscreen: ${err.message}`);
+              });
+            } else {
+              document.exitFullscreen().catch(err => {
+                console.log(`Error attempting to exit fullscreen: ${err.message}`);
+              });
+            }
+          }}
+          className="absolute top-20 right-4 p-2 rounded-lg z-10"
+          style={{ 
+            backgroundColor: 'var(--cosmic-bg-light)',
+            color: 'var(--cosmic-text-secondary)',
+            border: '1px solid var(--cosmic-border)'
+          }}
+          title="Toggle Fullscreen"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
+        </button>
 
         {/* Error Toast */}
         {error && (
