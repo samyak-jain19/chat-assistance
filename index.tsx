@@ -427,6 +427,25 @@ const App = () => {
                  background: 'radial-gradient(circle, #ff6b6b 0%, transparent 70%)',
                  animationDelay: '2s'
                }}></div>
+               
+          {/* Star field effect */}
+          <div className="absolute inset-0">
+            {[...Array(50)].map((_, i) => (
+              <div 
+                key={i}
+                className="absolute rounded-full animate-pulse"
+                style={{
+                  width: `${Math.random() * 3 + 1}px`,
+                  height: `${Math.random() * 3 + 1}px`,
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  backgroundColor: 'var(--cosmic-star)',
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${Math.random() * 3 + 2}s`
+                }}
+              ></div>
+            ))}
+          </div>
         </div>
 
         <div className="max-w-6xl w-full z-10 flex flex-col items-center">
@@ -699,7 +718,7 @@ const App = () => {
 
   // --- Render: Main Chat Interface ---
   return (
-    <div className="flex h-screen overflow-hidden" 
+    <div className="flex h-screen overflow-hidden cosmic-chat-interface" 
          style={{ 
            background: 'linear-gradient(135deg, var(--cosmic-bg-dark) 0%, var(--cosmic-bg-medium) 100%)',
            fontFamily: 'var(--font-family)'
@@ -707,16 +726,16 @@ const App = () => {
       
       {/* Left Panel: File Viewer (Only if file exists) */}
       {file && (
-        <div className="hidden lg:flex flex-col border-r" 
+        <div className="hidden lg:flex flex-col border-r cosmic-file-viewer" 
              style={{ width: '50%', backgroundColor: 'var(--cosmic-bg-light)', borderColor: 'var(--cosmic-border)' }}>
-          <div className="h-16 border-b flex items-center px-6 justify-between" 
+          <div className="h-16 border-b flex items-center px-6 justify-between cosmic-file-header" 
                style={{ borderColor: 'var(--cosmic-border)' }}>
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg" 
+              <div className="p-2 rounded-lg cosmic-file-icon" 
                    style={{ backgroundColor: 'rgba(106, 90, 249, 0.1)', color: 'var(--cosmic-accent-primary)' }}>
                 <FileIcon />
               </div>
-              <span className="font-medium truncate max-w-[300px]" title={file.name} 
+              <span className="font-medium truncate max-w-[300px] cosmic-file-name" title={file.name} 
                     style={{ color: 'var(--cosmic-text-primary)' }}>
                 {file.name}
               </span>
@@ -724,31 +743,31 @@ const App = () => {
             {/* Close File button triggers reset, which goes back to landing page */}
             <button 
               onClick={resetSession}
-              className="p-2 rounded-lg transition-colors transform hover:scale-110"
+              className="p-2 rounded-lg transition-colors transform hover:scale-110 cosmic-close-file"
               style={{ color: 'var(--cosmic-text-secondary)' }}
               title="Close File"
             >
               <TrashIcon />
             </button>
           </div>
-          <div className="flex-1 relative flex items-center justify-center overflow-hidden" 
+          <div className="flex-1 relative flex items-center justify-center overflow-hidden cosmic-file-content" 
                style={{ backgroundColor: 'var(--cosmic-bg-medium)' }}>
             {file.type === 'application/pdf' ? (
-              <object data={file.url} type="application/pdf" className="w-full h-full">
-                <div className="p-4 text-center" style={{ color: 'var(--cosmic-text-secondary)' }}>
-                   Cannot display PDF. <a href={file.url} download className="underline" 
+              <object data={file.url} type="application/pdf" className="w-full h-full cosmic-pdf-viewer">
+                <div className="p-4 text-center cosmic-pdf-error" style={{ color: 'var(--cosmic-text-secondary)' }}>
+                   Cannot display PDF. <a href={file.url} download className="underline cosmic-download-link" 
                                           style={{ color: 'var(--cosmic-accent-primary)' }}>Download</a>
                 </div>
               </object>
             ) : (
-               <img src={file.url} alt="Uploaded content" className="max-w-full max-h-full object-contain p-4" />
+               <img src={file.url} alt="Uploaded content" className="max-w-full max-h-full object-contain p-4 cosmic-image-viewer" />
             )}
           </div>
         </div>
       )}
 
       {/* Right Panel: Chat Interface */}
-      <div className={`flex flex-col h-full relative transition-all duration-300`}
+      <div className={`flex flex-col h-full relative transition-all duration-300 cosmic-chat-panel`}
            style={{ 
              width: '100%',
              backgroundColor: 'var(--cosmic-bg-dark)',
@@ -756,20 +775,20 @@ const App = () => {
            }}>
         
         {/* Header */}
-        <div className="h-16 border-b flex items-center justify-between px-6" 
+        <div className="h-16 border-b flex items-center justify-between px-6 cosmic-chat-header" 
              style={{ 
                backgroundColor: 'rgba(26, 26, 58, 0.7)',
                borderColor: 'var(--cosmic-border)',
                backdropFilter: 'blur(10px)'
              }}>
            <div className="flex items-center gap-3">
-              <button onClick={resetSession} className="lg:hidden transform hover:scale-110" 
+              <button onClick={resetSession} className="lg:hidden transform hover:scale-110 cosmic-back-button" 
                       style={{ color: 'var(--cosmic-text-secondary)' }}>
                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
-              <span className="font-semibold flex items-center gap-2 text-lg" 
+              <span className="font-semibold flex items-center gap-2 text-lg cosmic-header-title" 
                     style={{ color: 'var(--cosmic-text-primary)' }}>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center cosmic-header-icon"
                      style={{ backgroundColor: 'var(--cosmic-accent-primary)' }}>
                   <SparkleIcon />
                 </div>
@@ -780,7 +799,7 @@ const App = () => {
            {/* If no file is open, show an "Exit" or "New Chat" button to go back to landing */}
            {!file && (
              <button onClick={resetSession} 
-                     className="text-sm font-medium px-4 py-2 rounded-lg transition-all transform hover:scale-105"
+                     className="text-sm font-medium px-4 py-2 rounded-lg transition-all transform hover:scale-105 cosmic-new-chat-button"
                      style={{ 
                        background: 'linear-gradient(135deg, var(--cosmic-accent-primary) 0%, var(--cosmic-accent-secondary) 100%)',
                        color: 'white'
@@ -803,7 +822,7 @@ const App = () => {
               });
             }
           }}
-          className="absolute top-20 right-4 p-2 rounded-lg z-10"
+          className="absolute top-20 right-4 p-2 rounded-lg z-10 cosmic-fullscreen-toggle"
           style={{ 
             backgroundColor: 'var(--cosmic-bg-light)',
             color: 'var(--cosmic-text-secondary)',
@@ -816,13 +835,13 @@ const App = () => {
 
         {/* Error Toast */}
         {error && (
-            <div className="absolute top-20 left-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-lg flex items-center justify-between backdrop-blur-sm animate-in fade-in slide-in-from-top-2 max-w-2xl mx-auto glow"
+            <div className="absolute top-20 left-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-lg flex items-center justify-between backdrop-blur-sm animate-in fade-in slide-in-from-top-2 max-w-2xl mx-auto glow cosmic-error-toast"
                  style={{ 
                    backgroundColor: 'rgba(255, 0, 0, 0.9)',
                    color: 'white'
                  }}>
               <span className="text-sm font-medium">{error}</span>
-              <button onClick={() => setError(null)} className="ml-3 p-1 rounded-lg transition-colors"
+              <button onClick={() => setError(null)} className="ml-3 p-1 rounded-lg transition-colors cosmic-error-dismiss"
                       style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
                 <XIcon />
               </button>
@@ -830,12 +849,18 @@ const App = () => {
         )}
 
         {/* Chat History */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth" 
-             style={{ backgroundColor: 'var(--cosmic-bg-dark)' }}>
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth custom-scrollbar" 
+             style={{ backgroundColor: 'var(--cosmic-bg-dark)' }}
+             ref={(el) => {
+               if (el) {
+                 // Auto-scroll to bottom when new messages are added
+                 el.scrollTop = el.scrollHeight;
+               }
+             }}>
           {/* Centered welcome message if empty history in chat mode (rare but possible) */}
           {messages.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center opacity-50">
-               <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+               <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4 cosmic-star-animation"
                     style={{ 
                       backgroundColor: 'rgba(106, 90, 249, 0.1)',
                       color: 'var(--cosmic-text-secondary)'
@@ -853,7 +878,7 @@ const App = () => {
             <div key={idx} className={`flex gap-4 max-w-4xl mx-auto w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               
               {msg.role === 'model' && (
-                <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white glow" 
+                <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white glow cosmic-pulse" 
                      style={{ backgroundColor: 'var(--cosmic-accent-primary)' }}>
                   <BotIcon />
                 </div>
@@ -862,23 +887,23 @@ const App = () => {
               <div className={`flex flex-col max-w-[85%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                 
                 {msg.imageUrl && (
-                  <img src={msg.imageUrl} alt="User attachment" className="mb-2 max-w-full h-auto rounded-2xl border max-h-80" 
+                  <img src={msg.imageUrl} alt="User attachment" className="mb-2 max-w-full h-auto rounded-2xl border max-h-80 cosmic-border-glow" 
                        style={{ borderColor: 'var(--cosmic-border)' }} />
                 )}
 
                 {msg.audioUrl && (
                   <div className="mb-2">
-                     <audio controls src={msg.audioUrl} className="h-12 w-72 rounded-lg" 
+                     <audio controls src={msg.audioUrl} className="h-12 w-72 rounded-lg cosmic-audio-player" 
                             style={{ backgroundColor: 'var(--cosmic-bg-light)' }} />
                   </div>
                 )}
                 
                 {msg.text && (
                   <div 
-                    className={`rounded-2xl px-5 py-4 text-sm leading-relaxed whitespace-pre-wrap shadow-lg ${
+                    className={`rounded-2xl px-5 py-4 text-sm leading-relaxed whitespace-pre-wrap shadow-lg cosmic-message ${
                       msg.role === 'user' 
-                        ? 'rounded-tr-sm' 
-                        : 'rounded-tl-sm'
+                        ? 'rounded-tr-sm cosmic-user-message' 
+                        : 'rounded-tl-sm cosmic-ai-message'
                     }`}
                     style={{ 
                       backgroundColor: msg.role === 'user' ? 'var(--cosmic-accent-primary)' : 'var(--cosmic-bg-light)',
@@ -893,7 +918,7 @@ const App = () => {
               </div>
 
               {msg.role === 'user' && (
-                <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center" 
+                <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center cosmic-user-icon" 
                      style={{ backgroundColor: 'var(--cosmic-bg-medium)', color: 'var(--cosmic-text-secondary)' }}>
                   <UserIcon />
                 </div>
@@ -903,21 +928,21 @@ const App = () => {
           
           {isSending && messages[messages.length - 1]?.role === 'user' && (
             <div className="flex gap-4 max-w-4xl mx-auto w-full">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-white animate-pulse glow"
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-white animate-pulse glow cosmic-ai-thinking"
                    style={{ backgroundColor: 'var(--cosmic-accent-primary)' }}>
                 <BotIcon />
               </div>
-              <div className="px-5 py-4 rounded-2xl rounded-tl-sm flex gap-2 items-center" 
+              <div className="px-5 py-4 rounded-2xl rounded-tl-sm flex gap-2 items-center cosmic-thinking-indicator" 
                    style={{ 
                      backgroundColor: 'var(--cosmic-bg-light)',
                      border: `1px solid ${'var(--cosmic-border)'}`
                    }}>
-                 <div className="w-3 h-3 rounded-full animate-bounce" 
-                      style={{ backgroundColor: 'var(--cosmic-text-secondary)', animationDelay: '0s' }} />
-                 <div className="w-3 h-3 rounded-full animate-bounce" 
-                      style={{ backgroundColor: 'var(--cosmic-text-secondary)', animationDelay: '0.2s' }} />
-                 <div className="w-3 h-3 rounded-full animate-bounce" 
-                      style={{ backgroundColor: 'var(--cosmic-text-secondary)', animationDelay: '0.4s' }} />
+                 <div className="w-3 h-3 rounded-full animate-bounce cosmic-dot-1" 
+                      style={{ backgroundColor: 'var(--cosmic-text-secondary)' }} />
+                 <div className="w-3 h-3 rounded-full animate-bounce cosmic-dot-2" 
+                      style={{ backgroundColor: 'var(--cosmic-text-secondary)' }} />
+                 <div className="w-3 h-3 rounded-full animate-bounce cosmic-dot-3" 
+                      style={{ backgroundColor: 'var(--cosmic-text-secondary)' }} />
               </div>
             </div>
           )}
@@ -925,26 +950,26 @@ const App = () => {
         </div>
 
         {/* Input Area */}
-        <div className="p-4 border-t" 
+        <div className="p-4 border-t cosmic-input-area" 
              style={{ 
                backgroundColor: 'rgba(26, 26, 58, 0.7)',
                borderColor: 'var(--cosmic-border)',
                backdropFilter: 'blur(10px)'
              }}>
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* Attachment Preview */}
             {chatAttachment && (
-               <div className="flex items-center gap-2 mb-3 p-3 rounded-xl w-fit border animate-in fade-in slide-in-from-bottom-2" 
+               <div className="flex items-center gap-2 mb-3 p-3 rounded-xl w-fit border animate-in fade-in slide-in-from-bottom-2 cosmic-attachment-preview" 
                     style={{ 
                       backgroundColor: 'var(--cosmic-bg-medium)',
                       borderColor: 'var(--cosmic-border)'
                     }}>
-                  <img src={chatAttachment.url} alt="Preview" className="w-10 h-10 rounded-lg object-cover" />
-                  <span className="text-sm max-w-[180px] truncate" 
+                  <img src={chatAttachment.url} alt="Preview" className="w-10 h-10 rounded-lg object-cover cosmic-attachment-image" />
+                  <span className="text-sm max-w-[180px] truncate cosmic-attachment-name" 
                         style={{ color: 'var(--cosmic-text-secondary)' }}>{chatAttachment.name}</span>
                   <button 
                     onClick={() => { setChatAttachment(null); if (fileInputRef.current) fileInputRef.current.value = ''; }}
-                    className="ml-2 transform hover:scale-110"
+                    className="ml-2 transform hover:scale-110 cosmic-attachment-remove"
                     style={{ color: 'var(--cosmic-text-secondary)' }}
                   >
                     <XIcon />
@@ -952,10 +977,10 @@ const App = () => {
                </div>
             )}
 
-            <div className="relative flex items-end gap-3">
+            <div className="relative flex items-end gap-3 cosmic-input-container">
               
               {/* Image Upload Button */}
-              <div className="relative">
+              <div className="relative cosmic-upload-button-container">
                 <input 
                    type="file" 
                    accept="image/*" 
@@ -967,7 +992,7 @@ const App = () => {
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isSending || isRecording}
-                  className="p-3 rounded-xl border transition-all transform hover:scale-110"
+                  className="p-3 rounded-xl border transition-all transform hover:scale-110 cosmic-upload-button"
                   style={{ 
                     backgroundColor: 'var(--cosmic-bg-medium)',
                     color: 'var(--cosmic-text-secondary)',
@@ -980,13 +1005,13 @@ const App = () => {
               </div>
 
               {/* Mic / Text Input */}
-              <form onSubmit={handleSendMessage} className="flex-1 relative">
+              <form onSubmit={handleSendMessage} className="flex-1 relative cosmic-input-form">
                  <input
                   type="text"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder={isRecording ? "Listening..." : "Message AI Assistant..."}
-                  className="w-full rounded-2xl pl-5 pr-14 py-4 focus:outline-none transition-all text-base"
+                  className="w-full rounded-2xl pl-5 pr-14 py-4 focus:outline-none transition-all text-base cosmic-text-input"
                   style={{ 
                     backgroundColor: 'var(--cosmic-bg-medium)',
                     color: 'var(--cosmic-text-primary)',
@@ -998,7 +1023,7 @@ const App = () => {
                 <button 
                   type="submit"
                   disabled={(!inputText.trim() && !chatAttachment) || isSending || isRecording}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-all transform hover:scale-110"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-all transform hover:scale-110 cosmic-send-button"
                   style={{ 
                     backgroundColor: 'var(--cosmic-accent-primary)',
                     color: 'white'
@@ -1013,7 +1038,7 @@ const App = () => {
                  type="button"
                  onClick={isRecording ? stopRecording : startRecording}
                  disabled={isSending}
-                 className="p-3 rounded-xl border transition-all transform hover:scale-110"
+                 className="p-3 rounded-xl border transition-all transform hover:scale-110 cosmic-voice-button"
                  style={{ 
                    backgroundColor: isRecording ? 'rgba(255, 0, 0, 0.1)' : 'var(--cosmic-bg-medium)',
                    color: isRecording ? '#ff4444' : 'var(--cosmic-text-secondary)',
@@ -1026,7 +1051,7 @@ const App = () => {
 
             </div>
             
-            <div className="text-center mt-3">
+            <div className="text-center mt-3 cosmic-footer">
               <p className="text-xs" style={{ color: 'var(--cosmic-text-secondary)' }}>
                 Powered by Gemini 2.5 Flash • Secure and Private
               </p>
